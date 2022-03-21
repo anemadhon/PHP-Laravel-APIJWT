@@ -18,6 +18,16 @@ class Thread extends Model
         'user_id'
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function threadComments()
+    {
+        return $this->hasMany(ThreadComment::class);
+    }
+
     public function sluggable(): array
     {
         return [
