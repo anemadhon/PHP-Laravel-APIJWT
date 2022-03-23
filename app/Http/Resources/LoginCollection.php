@@ -10,14 +10,12 @@ class LoginCollection extends ResourceCollection
     public $statusCode;
     public $message;
     public $token;
-    public $error;
 
-    public function __construct(int $statusCode, string $message, ?array $token, ?array $error)
+    public function __construct(int $statusCode, $message = null, $token = null)
     {
         $this->statusCode = $statusCode;
         $this->message = $message;
         $this->token = $token;
-        $this->error = $error;
     }
 
     /**
@@ -30,10 +28,9 @@ class LoginCollection extends ResourceCollection
     {
         return [
             'success' => ($this->statusCode === 200 ? true : false),
-            'message' => $this->message,
+            'message' => $this->when(!is_null($this->message), $this->message),
             'data' => ($this->statusCode === 200 ? new UserResource($request->user()) : null),
-            'token' => $this->when(!is_null($this->token), $this->token),
-            'error' => $this->when(!is_null($this->error), $this->error)
+            'token' => $this->when(!is_null($this->token), $this->token)
         ];
     }
 
