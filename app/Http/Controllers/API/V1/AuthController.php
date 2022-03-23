@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Models\User;
 use App\Services\AuthService;
 use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\LoginCollection;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\ErrorResponseColection;
 
 class AuthController extends Controller
 {
@@ -22,12 +20,9 @@ class AuthController extends Controller
 
         if (!$authentication) {
 
-            $token = null;
-            $error = [
+            return new ErrorResponseColection(401, 'Unauthorized', [
                 'message' => 'Please Check your Credentials'
-            ];
-
-            return (new AuthService())->response(401, 'Unauthorized', $token, $error);
+            ]);
         }
 
         $token = [
