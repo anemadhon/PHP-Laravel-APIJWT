@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Services\AuthService;
 use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\LoginCollection;
 use App\Http\Resources\ErrorResponseColection;
 
 class AuthController extends Controller
@@ -31,7 +31,7 @@ class AuthController extends Controller
             'expires' => auth()->factory()->getTTL() * 60
         ];
 
-        return (new AuthService())->response(200, 'User Logged in Successfully', $token);
+        return new LoginCollection(200, 'User Logged in Successfully', $token);
     }
 
     public function refresh()
@@ -42,13 +42,13 @@ class AuthController extends Controller
             'expires' => auth()->factory()->getTTL() * 60
         ];
 
-        return (new AuthService())->response(200, 'Token Refreshed Successfully', $token);
+        return new LoginCollection(200, 'Token Refreshed Successfully', $token);
     }
 
     public function logout()
     {
         auth()->logout();
-        
-        return (new AuthService())->response(204, 'User Logged out Successfully');
+
+        return new LoginCollection(204);
     }
 }
