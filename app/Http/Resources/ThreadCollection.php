@@ -12,7 +12,7 @@ class ThreadCollection extends ResourceCollection
     public $message;
     public $method;
 
-    public function __construct($resource, int $statusCode, string $message, string $method = 'show')
+    public function __construct($resource, int $statusCode, string $message, string $method = '')
     {
         parent::__construct($resource);
 
@@ -31,9 +31,9 @@ class ThreadCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'success' => ($this->statusCode === 200 ? true : false),
+            'success' => true,
             'message' => $this->message,
-            'data' => ($this->statusCode === 200 ? ($this->method === 'show' ? new ThreadResourse($this->resource) : ThreadResourse::collection($this->resource)) : null)
+            'data' => ($this->statusCode === 200 ? ($this->method === 'index' ? ThreadResourse::collection($this->resource) : new ThreadResourse($this->resource)) : null)
         ];
     }
 

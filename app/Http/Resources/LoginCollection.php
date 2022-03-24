@@ -27,7 +27,7 @@ class LoginCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'success' => ($this->statusCode === 200 ? true : false),
+            'success' => true,
             'message' => $this->when(!is_null($this->message), $this->message),
             'data' => ($this->statusCode === 200 ? new UserResource($request->user()) : null),
             'token' => $this->when(!is_null($this->token), $this->token)
