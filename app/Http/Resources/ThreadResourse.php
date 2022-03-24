@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\CommentResource;
+use App\Http\Resources\ThreadCommentResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ThreadResourse extends JsonResource
@@ -25,7 +25,7 @@ class ThreadResourse extends JsonResource
             'has_comments' => [
                 'status' => $this->threadComments->count() > 0 ? true : false,
                 'count' => $this->threadComments->count(),
-                'data' => CommentResource::collection($this->threadComments)
+                'data' => ThreadCommentResource::collection($this->threadComments)
             ]
         ];
     }
