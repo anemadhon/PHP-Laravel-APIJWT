@@ -41,7 +41,7 @@ class Handler extends ExceptionHandler
             if ($request->wantsJson()) {
                 return response(new ErrorResponseCollection(404, 'Not Found', [
                     'message' => 'Data or object not found'
-                ]));
+                ]), 404);
             }
         });
         
@@ -49,7 +49,7 @@ class Handler extends ExceptionHandler
             if ($request->wantsJson()) {
                 return response(new ErrorResponseCollection(405, 'Method Not Allowed', [
                     'message' => 'Your method was incorrect'
-                ]));
+                ]), 405);
             }
         });
     }

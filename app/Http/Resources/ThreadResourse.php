@@ -23,9 +23,9 @@ class ThreadResourse extends JsonResource
             'posted_by' => new UserResource($this->user),
             'posted_at' => $this->created_at->diffForHumans(),
             'has_comments' => [
-                'status' => $this->threadComments->count() > 0 ? true : false,
-                'count' => $this->threadComments->count(),
-                'data' => CommentResource::collection($this->threadComments)
+                'status' => $this->comments->count() > 0 ? true : false,
+                'count' => $this->comments->count(),
+                'data' => CommentResource::collection($this->comments)
             ]
         ];
     }
