@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ThreadComment extends Model
 {
-    use HasFactory;
+    use HasFactory, Sluggable;
 
     protected $fillable = [
         'body',
+        'slug',
         'thread_id',
         'user_id'
     ];
@@ -23,5 +25,15 @@ class ThreadComment extends Model
     public function thread()
     {
         return $this->belongsTo(Thread::class);
+    }
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => ['thread_id', 'id', 'user_id'],
+                'separator' => ''
+            ]
+        ];
     }
 }
