@@ -31,7 +31,7 @@ class ThreadComment extends Model
     {
         return [
             'slug' => [
-                'source' => ['thread_id', 'id', 'user_id'],
+                'source' => ['thread_id', 'user_id'],
                 'separator' => ''
             ]
         ];
