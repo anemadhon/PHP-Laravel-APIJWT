@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-use App\Http\Resources\ErrorResponseColection;
+use App\Http\Resources\ErrorResponseCollection;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -39,7 +39,7 @@ class Handler extends ExceptionHandler
     {
         $this->renderable(function (NotFoundHttpException $e, $request) {
             if ($request->wantsJson()) {
-                return response(new ErrorResponseColection(404, 'Not Found', [
+                return response(new ErrorResponseCollection(404, 'Not Found', [
                     'message' => 'Data or object not found'
                 ]));
             }
@@ -47,7 +47,7 @@ class Handler extends ExceptionHandler
         
         $this->renderable(function (MethodNotAllowedHttpException $e, $request) {
             if ($request->wantsJson()) {
-                return response(new ErrorResponseColection(405, 'Method Not Allowed', [
+                return response(new ErrorResponseCollection(405, 'Method Not Allowed', [
                     'message' => 'Your method was incorrect'
                 ]));
             }

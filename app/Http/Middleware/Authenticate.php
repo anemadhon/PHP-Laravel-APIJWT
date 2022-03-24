@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Resources\ErrorResponseColection;
+use App\Http\Resources\ErrorResponseCollection;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
 class Authenticate extends Middleware
@@ -22,7 +22,7 @@ class Authenticate extends Middleware
 
     protected function unauthenticated($request, array $guards)
     {
-        abort(new ErrorResponseColection(401, 'Unauthenticated', [
+        abort(new ErrorResponseCollection(401, 'Unauthenticated', [
             'message' => 'Please login to continue'
         ]));
     }

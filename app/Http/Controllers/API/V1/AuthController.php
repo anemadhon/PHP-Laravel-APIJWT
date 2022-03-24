@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LoginCollection;
-use App\Http\Resources\ErrorResponseColection;
+use App\Http\Resources\ErrorResponseCollection;
 
 class AuthController extends Controller
 {
@@ -20,7 +20,7 @@ class AuthController extends Controller
 
         if (!$authentication) {
 
-            return new ErrorResponseColection(401, 'Unauthorized', [
+            return new ErrorResponseCollection(401, 'Unauthorized', [
                 'message' => 'Please Check your Credentials'
             ]);
         }

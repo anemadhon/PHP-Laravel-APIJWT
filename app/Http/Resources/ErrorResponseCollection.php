@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceResponse;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class ErrorResponseColection extends JsonResource
+class ErrorResponseCollection extends ResourceCollection
 {
     public $statusCode;
     public $message;
