@@ -22,5 +22,9 @@ Route::group([
         Route::apiResource('threads', \App\Http\Controllers\API\V1\ThreadController::class)->scoped([
             'thread' => 'slug'
         ]);
+        
+        Route::apiResource('threads.comments', \App\Http\Controllers\API\V1\ThreadCommentController::class)->scoped([
+            'thread' => 'slug'
+        ])->except(['index', 'show']);
     });
 });
