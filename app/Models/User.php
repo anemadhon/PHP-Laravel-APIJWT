@@ -49,7 +49,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Thread::class);
     }
 
-    public function threadComments()
+    public function comments()
     {
         return $this->hasMany(ThreadComment::class);
     }

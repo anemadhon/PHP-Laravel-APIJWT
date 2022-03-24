@@ -23,7 +23,7 @@ class Thread extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function threadComments()
+    public function comments()
     {
         return $this->hasMany(ThreadComment::class);
     }
