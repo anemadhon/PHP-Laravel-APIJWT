@@ -30,8 +30,9 @@ class ThreadRequest extends FormRequest
 
         return [
             'title' => ['required', 'string', 'min:3', 'max:30', $unique],
-            'body' => ['required', 'string', 'min:3', 'max:500', ],
-            'category' => ['required', 'string', 'min:3', 'max:30', ]
+            'body' => ['required', 'string', 'min:3', 'max:500'],
+            'category' => ['required', 'string', 'min:3', 'max:30'],
+            'thumbnail' => ['image', 'mimes:png,jpg,jpeg', 'size:2097']
         ];
     }
 
@@ -46,7 +47,10 @@ class ThreadRequest extends FormRequest
             'body.max' => 'your thread body reaches max character (500)',
             'category.required' => 'Please fill your thread category',
             'category.min' => 'Please fill your thread category at least 3 character',
-            'category.max' => 'your thread category reaches max character (30)'
+            'category.max' => 'your thread category reaches max character (30)',
+            'thumbnail.image' => 'Please just provide an image',
+            'thumbnail.mimes' => 'Please provide a PNG or JPG or JPEG images',
+            'thumbnail.size' => 'Your image reaches max size (2 MB)'
         ];
     }
 

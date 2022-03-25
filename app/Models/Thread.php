@@ -15,6 +15,7 @@ class Thread extends Model
         'body',
         'category', 
         'slug',
+        'thumbnail',
         'user_id'
     ];
 

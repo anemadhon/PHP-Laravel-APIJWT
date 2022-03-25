@@ -22,6 +22,7 @@ class ThreadFactory extends Factory
             'body' => $this->faker->realText(200, 2),
             'category' => $this->faker->word(),
             'slug' => Str::slug($title),
+            'thumbnail' => null,
             'user_id' => User::factory()->create()->id
         ];
     }

@@ -19,6 +19,7 @@ class MyCommentThreadResource extends JsonResource
             'body' => $this->body,
             'category' => $this->category,
             'slug' => $this->slug,
+            'thumbnail' => $this->thumbnail,
             'posted_at' => $this->created_at->diffForHumans(),
         ];
     }

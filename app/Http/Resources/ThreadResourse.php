@@ -20,6 +20,7 @@ class ThreadResourse extends JsonResource
             'body' => $this->body,
             'category' => $this->category,
             'slug' => $this->slug,
+            'thumbnail' => (is_null($this->thumbnail) ? 'https://ui-avatars.com/api/?name='.$this->slug.'&background=random&bold=true' : $this->thumbnail),
             'posted_by' => new UserResource($this->user),
             'posted_at' => $this->created_at->diffForHumans(),
             'has_comments' => [
