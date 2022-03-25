@@ -32,7 +32,7 @@ class ProfileRequest extends FormRequest
             'name' => ['required', 'string', 'min:3', 'max:30', $unique],
             'username' => ['required', 'string', 'min:5', 'max:30', $unique],
             'email' => ['required', 'string', 'email', $unique],
-            'avatar' => ['image', 'mimes:png,jpg,jpeg', 'size:2097']
+            'avatar' => ['file', 'mimes:png,jpg,jpeg', 'max:2097']
         ];
     }
 
@@ -47,7 +47,7 @@ class ProfileRequest extends FormRequest
             'username.max' => 'Your username reaches max character (30)',
             'email.required' => 'Please fill your email address',
             'email.email' => 'Please fill your valid email address',
-            'avatar.image' => 'Please just provide an image',
+            'avatar.file' => 'Please just provide an image',
             'avatar.mimes' => 'Please provide a PNG or JPG or JPEG images',
             'avatar.size' => 'Your image reaches max size (2 MB)'
         ];
