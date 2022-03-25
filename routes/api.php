@@ -27,5 +27,17 @@ Route::group([
             'thread' => 'slug',
             'comment' => 'slug'
         ])->except(['index', 'show']);
+
+        Route::group([
+            'prefix' => 'me',
+            'as' => 'me.'
+        ], function()
+        {
+            Route::get('profile', [\App\Http\Controllers\API\V1\UserAuthenticatedController::class, 'getProfile'])->name('profile');
+            Route::put('profile', [\App\Http\Controllers\API\V1\UserAuthenticatedController::class, 'updateProfile'])->name('profile');
+
+            Route::get('threads', [\App\Http\Controllers\API\V1\UserAuthenticatedController::class, 'threads'])->name('threads');
+            Route::get('comments', [\App\Http\Controllers\API\V1\UserAuthenticatedController::class, 'comments'])->name('comments');
+        });
     });
 });
