@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class LoginRequest extends FormRequest
 {
@@ -38,5 +40,15 @@ class LoginRequest extends FormRequest
             'password.required' => 'Please fill your password',
             'password.min' => 'Please fill your password at least 8 character',
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+                        'success' => false,
+                        'message' => 'The given data was invalid.',
+                        'data' => null, 
+                        'errors' => $validator->errors()
+                      ], 422));
     }
 }
