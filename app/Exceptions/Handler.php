@@ -52,5 +52,13 @@ class Handler extends ExceptionHandler
                 ]), 405);
             }
         });
+        
+        $this->renderable(function (\Exception $e, $request) {
+            if ($request->wantsJson()) {
+                return response(new ErrorResponseCollection(500, 'Internal Error', [
+                    'message' => 'Please contact administrator for more info'
+                ]), 500);
+            }
+        });
     }
 }
