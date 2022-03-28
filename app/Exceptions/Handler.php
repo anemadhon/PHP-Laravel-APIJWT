@@ -54,7 +54,7 @@ class Handler extends ExceptionHandler
         });
         
         $this->renderable(function (\Exception $e, $request) {
-            if ($request->wantsJson()) {
+            if ($request->wantsJson() && auth()->check()) {
                 return response(new ErrorResponseCollection(500, 'Internal Error', [
                     'message' => 'Please contact administrator for more info'
                 ]), 500);
