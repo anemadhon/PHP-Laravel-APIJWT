@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ThreadRequest;
+use App\Http\Resources\ErrorResponseCollection;
 use App\Http\Resources\ThreadCollection;
 use App\Models\Thread;
 use Illuminate\Http\Request;
@@ -90,5 +91,18 @@ class ThreadController extends Controller
         $thread->delete();
 
         return new ThreadCollection($thread, 200, 'Post Deleted Successfully');
+    }
+
+    public function byCategory(string $category)
+    {
+        $threads = Thread::where('category', 'like', "%{$category}%")->get();
+
+        if ($threads->count() === 0) {
+            return new ErrorResponseCollection(404, 'Not Found', [
+                'message' => "Posts by {$category} Not Found"
+            ]);
+        }
+
+        return new ThreadCollection($threads, 200, "Posts by {$category} Shown Successfully", 'index');
     }
 }

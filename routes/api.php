@@ -19,6 +19,8 @@ Route::group([
             Route::post('refresh', [\App\Http\Controllers\API\V1\AuthController::class, 'refresh'])->name('refresh'); 
         });
 
+        Route::get('threads/{category}/categories', [\App\Http\Controllers\API\V1\ThreadController::class, 'byCategory'])->name('threads.by.category');
+
         Route::apiResource('threads', \App\Http\Controllers\API\V1\ThreadController::class)->scoped([
             'thread' => 'slug'
         ]);
