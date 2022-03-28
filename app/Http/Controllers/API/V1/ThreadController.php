@@ -33,7 +33,15 @@ class ThreadController extends Controller
      */
     public function store(ThreadRequest $request)
     {
-        $thread = auth()->user()->threads()->create($request->validated());
+        $validated = $request->validated();
+
+        if ($request->hasFile('thumbnail')) {
+            $title = $request->validated()['title'];
+            $thumbnail = $request->file('thumbnail');
+            $validated['thumbnail'] = $thumbnail->storeAs('images', "thumbnail/{$title}/{$thumbnail->getClientOriginalName()}", 'public');
+        }
+
+        $thread = auth()->user()->threads()->create($validated);
 
         return new ThreadCollection($thread, 200, 'Data Posted Successfully');
     }
@@ -58,7 +66,15 @@ class ThreadController extends Controller
      */
     public function update(ThreadRequest $request, Thread $thread)
     {
-        $thread->update($request->validated());
+        $validated = $request->validated();
+
+        if ($request->hasFile('thumbnail')) {
+            $title = $request->validated()['title'];
+            $thumbnail = $request->file('thumbnail');
+            $validated['thumbnail'] = $thumbnail->storeAs('images', "thumbnail/{$title}/{$thumbnail->getClientOriginalName()}", 'public');
+        }
+
+        $thread->update($validated);
 
         return new ThreadCollection($thread, 200, 'Post Updated Successfully');
     }

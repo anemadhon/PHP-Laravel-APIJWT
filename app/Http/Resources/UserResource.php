@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
@@ -18,7 +19,10 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'username' => $this->username,
             'email' => $this->email,
-            'avatar' => (is_null($this->avatar) ? 'https://ui-avatars.com/api/?name='.urlencode($this->name).'&background=random&rounded=true&bold=true' : $this->avatar),
+            'avatar' => (is_null($this->avatar) ? 
+                'https://ui-avatars.com/api/?name='.urlencode($this->name).'&background=random&rounded=true&bold=true' : 
+                new ImageResource($this->avatar)
+            ),
             'join_thread_at' => $this->created_at->diffForHumans()
         ];
     }

@@ -5,8 +5,8 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Resources\LoginCollection;
-use App\Http\Resources\MyCommentCollection;
 use App\Http\Resources\ThreadCollection;
+use App\Http\Resources\MyCommentCollection;
 
 class UserAuthenticatedController extends Controller
 {
@@ -17,7 +17,15 @@ class UserAuthenticatedController extends Controller
 
     public function updateProfile(ProfileRequest $request)
     {
-        auth()->user()->update($request->validated());
+        $validated = $request->validated();
+
+        if ($request->hasFile('avatar')) {
+            $username = auth()->user()->username;
+            $avatar = $request->file('avatar');
+            $validated['avatar'] = $avatar->storeAs('images', "avatar/{$username}/{$avatar->getClientOriginalName()}", 'public');
+        }
+
+        auth()->user()->update($validated);
 
         return new LoginCollection(200, 'Your Profile Updated Successfully');
     }
