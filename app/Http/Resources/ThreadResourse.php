@@ -26,6 +26,8 @@ class ThreadResourse extends JsonResource
             ),
             'posted_by' => new UserResource($this->user),
             'posted_at' => $this->created_at->diffForHumans(),
+            'has_likes' => new LikeCollection($this->likes),
+            'has_unlikes' => new LikeCollection($this->unlikes),
             'has_comments' => [
                 'status' => $this->comments->count() > 0 ? true : false,
                 'count' => $this->comments->count(),
