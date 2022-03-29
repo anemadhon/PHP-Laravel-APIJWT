@@ -23,7 +23,12 @@ class ThreadController extends Controller
      */
     public function index()
     {
-        return new ThreadCollection(Thread::all(), 200, 'All Posts Shown Successfully', 'index');
+        return new ThreadCollection(Thread::with([
+            'user',
+            'likes', 'likes.user', 
+            'unlikes', 'unlikes.user',
+            'comments', 'comments.user'
+        ])->get(), 200, 'All Posts Shown Successfully', 'index');
     }
 
     /**
@@ -55,7 +60,12 @@ class ThreadController extends Controller
      */
     public function show(Thread $thread)
     {
-        return new ThreadCollection($thread, 200, 'Single Post Shown Successfully');
+        return new ThreadCollection($thread->load([
+            'user',
+            'likes', 'likes.user', 
+            'unlikes', 'unlikes.user',
+            'comments', 'comments.user'
+        ]), 200, 'Single Post Shown Successfully');
     }
 
     /**
@@ -95,7 +105,12 @@ class ThreadController extends Controller
 
     public function byCategory(string $category)
     {
-        $threads = Thread::where('category', 'like', "%{$category}%")->get();
+        $threads = Thread::with([
+            'user',
+            'likes', 'likes.user', 
+            'unlikes', 'unlikes.user',
+            'comments', 'comments.user'
+        ])->where('category', 'like', "%{$category}%")->get();
 
         if ($threads->count() === 0) {
             return new ErrorResponseCollection(404, 'Not Found', [

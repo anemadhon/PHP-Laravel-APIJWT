@@ -32,17 +32,32 @@ class UserAuthenticatedController extends Controller
 
     public function threads()
     {
-        return new ThreadCollection(auth()->user()->threads, 200, 'Your Threads Shown Successfully', 'index');
+        return new ThreadCollection(auth()->user()->threads->load([
+            'user',
+            'likes', 'likes.user', 
+            'unlikes', 'unlikes.user',
+            'comments', 'comments.user'
+        ]), 200, 'Your Threads Shown Successfully', 'index');
     }
     
     public function likeThreads()
     {
-        return new ThreadCollection(auth()->user()->likes->load('thread')->pluck('thread'), 200, 'Your Likes Threads Shown Successfully', 'index');
+        return new ThreadCollection(auth()->user()->likes->load([
+            'thread', 
+            'thread.likes', 'thread.likes.user',
+            'thread.unlikes', 'thread.unlikes.user',
+            'thread.comments', 'thread.comments.user'
+        ])->pluck('thread'), 200, 'Your Likes Threads Shown Successfully', 'index');
     }
     
     public function unlikeThreads()
     {
-        return new ThreadCollection(auth()->user()->unlikes->load('thread')->pluck('thread'), 200, 'Your Unlikes Threads Shown Successfully', 'index');
+        return new ThreadCollection(auth()->user()->unlikes->load([
+            'thread', 
+            'thread.likes', 'thread.likes.user',
+            'thread.unlikes', 'thread.unlikes.user',
+            'thread.comments', 'thread.comments.user'
+        ])->pluck('thread'), 200, 'Your Unlikes Threads Shown Successfully', 'index');
     }
     
     public function comments()
