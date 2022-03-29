@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Models\Thread;
+use App\Enums\LikeStatus;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ThreadRequest;
-use App\Http\Resources\ErrorResponseCollection;
 use App\Http\Resources\ThreadCollection;
-use App\Models\Thread;
-use Illuminate\Http\Request;
+use App\Http\Resources\ErrorResponseCollection;
+use App\Models\Like;
+use App\Services\LikeService;
 
 class ThreadController extends Controller
 {
@@ -119,5 +122,55 @@ class ThreadController extends Controller
         }
 
         return new ThreadCollection($threads, 200, "Posts by {$category} Shown Successfully", 'index');
+    }
+
+    public function likes(Thread $thread)
+    {
+        $status = (new LikeService())->check($thread->id, auth()->id());
+
+        if ($status === 'not available') {
+            return response()->json([
+                'status' => true,
+                'message' => "You're Like this Thread before",
+                'data' => null
+            ], 200);
+        }
+
+        auth()->user()->likes()->create([
+            'status' => LikeStatus::like,
+            'thread_id' => $thread->id
+        ]);
+
+        return new ThreadCollection(auth()->user()->likes->load([
+            'thread', 
+            'thread.likes', 'thread.likes.user',
+            'thread.unlikes', 'thread.unlikes.user',
+            'thread.comments', 'thread.comments.user'
+        ])->pluck('thread'), 200, 'Your Likes Threads Shown Successfully');
+    }
+    
+    public function unlikes(Thread $thread)
+    {
+        $status = (new LikeService())->check($thread->id, auth()->id());
+
+        if ($status === 'not available') {
+            return response()->json([
+                'status' => true,
+                'message' => "You're Unlike this Thread before",
+                'data' => null
+            ], 200);
+        }
+
+        auth()->user()->likes()->create([
+            'status' => LikeStatus::unlike,
+            'thread_id' => $thread->id
+        ]);
+
+        return new ThreadCollection(auth()->user()->likes->load([
+            'thread', 
+            'thread.likes', 'thread.likes.user',
+            'thread.unlikes', 'thread.unlikes.user',
+            'thread.comments', 'thread.comments.user'
+        ])->pluck('thread'), 200, 'Your Unlikes Threads Shown Successfully');
     }
 }

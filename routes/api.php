@@ -20,6 +20,8 @@ Route::group([
         });
 
         Route::get('threads/{category}/categories', [\App\Http\Controllers\API\V1\ThreadController::class, 'byCategory'])->name('threads.by.category');
+        Route::post('threads/{thread:slug}/likes', [\App\Http\Controllers\API\V1\ThreadController::class, 'likes'])->name('threads.likes');
+        Route::post('threads/{thread:slug}/unlikes', [\App\Http\Controllers\API\V1\ThreadController::class, 'unlikes'])->name('threads.unlikes');
 
         Route::apiResource('threads', \App\Http\Controllers\API\V1\ThreadController::class)->scoped([
             'thread' => 'slug'
