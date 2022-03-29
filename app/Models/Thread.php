@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\LikeStatus;
+use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
@@ -27,6 +28,16 @@ class Thread extends Model
     public function comments()
     {
         return $this->hasMany(ThreadComment::class);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class)->where('status', LikeStatus::like);
+    }
+    
+    public function unlikes()
+    {
+        return $this->hasMany(Like::class)->where('status', LikeStatus::unlike);
     }
 
     public function sluggable(): array
