@@ -39,6 +39,9 @@ Route::group([
             Route::put('profile', [\App\Http\Controllers\API\V1\UserAuthenticatedController::class, 'updateProfile'])->name('profile');
 
             Route::get('threads', [\App\Http\Controllers\API\V1\UserAuthenticatedController::class, 'threads'])->name('threads');
+            Route::get('threads/likes', [\App\Http\Controllers\API\V1\UserAuthenticatedController::class, 'likeThreads'])->name('threads.likes');
+            Route::get('threads/unlikes', [\App\Http\Controllers\API\V1\UserAuthenticatedController::class, 'unlikeThreads'])->name('threads.unlikes');
+            
             Route::get('comments', [\App\Http\Controllers\API\V1\UserAuthenticatedController::class, 'comments'])->name('comments');
         });
     });
