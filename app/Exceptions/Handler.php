@@ -3,7 +3,9 @@
 namespace App\Exceptions;
 
 use App\Http\Resources\ErrorResponseCollection;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -37,6 +39,14 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
+        $this->renderable(function (AccessDeniedHttpException $e, $request) {
+            if ($request->wantsJson()) {
+                return response(new ErrorResponseCollection(403, 'Forbidden', [
+                    'message' => 'Your action is unauthorized'
+                ]), 403);
+            }
+        });
+
         $this->renderable(function (NotFoundHttpException $e, $request) {
             if ($request->wantsJson()) {
                 return response(new ErrorResponseCollection(404, 'Not Found', [
@@ -54,6 +64,14 @@ class Handler extends ExceptionHandler
         });
         
         $this->renderable(function (\Exception $e, $request) {
+            if ($request->wantsJson() && auth()->check()) {
+                return response(new ErrorResponseCollection(500, 'Internal Error', [
+                    'message' => 'Please contact administrator for more info'
+                ]), 500);
+            }
+        });
+        
+        $this->renderable(function (QueryException $e, $request) {
             if ($request->wantsJson() && auth()->check()) {
                 return response(new ErrorResponseCollection(500, 'Internal Error', [
                     'message' => 'Please contact administrator for more info'
