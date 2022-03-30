@@ -4,12 +4,10 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Models\Thread;
 use App\Enums\LikeStatus;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ThreadRequest;
 use App\Http\Resources\ThreadCollection;
 use App\Http\Resources\ErrorResponseCollection;
-use App\Models\Like;
 use App\Services\LikeService;
 
 class ThreadController extends Controller
@@ -99,7 +97,7 @@ class ThreadController extends Controller
      * @param  \App\Models\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ThreadRequest $thread)
+    public function destroy(Thread $thread)
     {
         $thread->delete();
 
@@ -126,7 +124,7 @@ class ThreadController extends Controller
 
     public function likes(Thread $thread)
     {
-        $status = (new LikeService())->check($thread->id, auth()->id());
+        $status = (new LikeService())->checkAvailablityUser($thread->id, auth()->id());
 
         if ($status === 'not available') {
             return response()->json([
@@ -151,7 +149,7 @@ class ThreadController extends Controller
     
     public function unlikes(Thread $thread)
     {
-        $status = (new LikeService())->check($thread->id, auth()->id());
+        $status = (new LikeService())->checkAvailablityUser($thread->id, auth()->id());
 
         if ($status === 'not available') {
             return response()->json([

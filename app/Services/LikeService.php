@@ -8,7 +8,7 @@ use App\Models\Thread;
 
 class LikeService
 {
-    public function check(int $threadId, int $userId)
+    public function checkAvailablityUser(int $threadId, int $userId)
     {
         $likes = Like::where('thread_id', $threadId)->get();
         $status = 'available';
