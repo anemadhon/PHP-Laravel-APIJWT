@@ -29,7 +29,7 @@ class ThreadController extends Controller
             'likes', 'likes.user', 
             'unlikes', 'unlikes.user',
             'comments', 'comments.user'
-        ])->get(), 200, 'All Posts Shown Successfully', 'index');
+        ])->paginate(6), 200, 'All Posts Shown Successfully', 'index');
     }
 
     /**
@@ -115,7 +115,7 @@ class ThreadController extends Controller
             'likes', 'likes.user', 
             'unlikes', 'unlikes.user',
             'comments', 'comments.user'
-        ])->where('category', 'like', "%{$category}%")->get();
+        ])->where('category', 'like', "%{$category}%")->paginate(6);
 
         if ($threads->count() === 0) {
             return new ErrorResponseCollection(404, 'Not Found', [
