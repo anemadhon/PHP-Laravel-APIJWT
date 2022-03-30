@@ -78,6 +78,8 @@ class ThreadController extends Controller
      */
     public function update(ThreadRequest $request, Thread $thread)
     {
+        $this->authorize('modify-threads', $thread);
+
         $validated = $request->validated();
 
         if ($request->hasFile('thumbnail')) {
@@ -99,6 +101,8 @@ class ThreadController extends Controller
      */
     public function destroy(Thread $thread)
     {
+        $this->authorize('modify-threads', $thread);
+
         $thread->delete();
 
         return new ThreadCollection($thread, 200, 'Post Deleted Successfully');

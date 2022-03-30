@@ -32,6 +32,8 @@ class ThreadCommentController extends Controller
      */
     public function update(ThreadCommentRequest $request, Thread $thread, ThreadComment $comment)
     {
+        $this->authorize('modify-comments', $comment);
+        
         $comment->update($request->validated());
 
         return new ThreadCommentCollection($comment, 200, 'Comment Updated Successfully');
@@ -45,6 +47,8 @@ class ThreadCommentController extends Controller
      */
     public function destroy(Thread $thread, ThreadComment $comment)
     {
+        $this->authorize('modify-comments', $comment);
+
         $comment->delete();
 
         return new ThreadCommentCollection($comment, 200, 'Comment Deleted Successfully');
