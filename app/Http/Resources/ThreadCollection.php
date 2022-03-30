@@ -36,11 +36,4 @@ class ThreadCollection extends ResourceCollection
             'data' => ($this->statusCode === 200 ? ($this->method === 'index' ? ThreadResourse::collection($this->resource) : new ThreadResourse($this->resource)) : null)
         ];
     }
-
-    public function toResponse($request)
-    {
-        return (new ResourceResponse($this))
-            ->toResponse($request)
-            ->setStatusCode($this->statusCode);
-    }
 }
