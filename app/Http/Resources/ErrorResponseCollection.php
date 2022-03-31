@@ -30,7 +30,7 @@ class ErrorResponseCollection extends ResourceCollection
             'success' => false,
             'message' => $this->message,
             'data' => null,
-            'error' => $this->error
+            'errors' => $this->error
         ];
     }
 
