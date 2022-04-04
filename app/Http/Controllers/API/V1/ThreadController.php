@@ -143,12 +143,11 @@ class ThreadController extends Controller
             'thread_id' => $thread->id
         ]);
 
-        return new ThreadCollection(auth()->user()->likes->load([
-            'thread', 
-            'thread.likes', 'thread.likes.user',
-            'thread.unlikes', 'thread.unlikes.user',
-            'thread.comments', 'thread.comments.user'
-        ])->pluck('thread'), 200, 'Your Likes Threads Shown Successfully');
+        return new ThreadCollection($thread->load([
+            'likes', 'likes.user',
+            'unlikes', 'unlikes.user',
+            'comments', 'comments.user'
+        ]), 200, 'Your Likes send Successfully');
     }
     
     public function unlikes(Thread $thread)
@@ -168,11 +167,10 @@ class ThreadController extends Controller
             'thread_id' => $thread->id
         ]);
 
-        return new ThreadCollection(auth()->user()->likes->load([
-            'thread', 
-            'thread.likes', 'thread.likes.user',
-            'thread.unlikes', 'thread.unlikes.user',
-            'thread.comments', 'thread.comments.user'
-        ])->pluck('thread'), 200, 'Your Unlikes Threads Shown Successfully');
+        return new ThreadCollection($thread->load([
+            'likes', 'likes.user',
+            'unlikes', 'unlikes.user',
+            'comments', 'comments.user'
+        ]), 200, 'Your Unlikes send Successfully');
     }
 }
