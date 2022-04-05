@@ -20,7 +20,7 @@ class UserAuthenticatedController extends Controller
         $validated = $request->validated();
 
         if ($request->hasFile('avatar')) {
-            $username = auth()->user()->username;
+            $username = $validated['username'];
             $avatar = $request->file('avatar');
             $validated['avatar'] = $avatar->storeAs('images', "avatar/{$username}/{$avatar->getClientOriginalName()}", 'public');
         }

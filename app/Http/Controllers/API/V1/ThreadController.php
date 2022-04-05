@@ -43,7 +43,7 @@ class ThreadController extends Controller
         $validated = $request->validated();
 
         if ($request->hasFile('thumbnail')) {
-            $title = $request->validated()['title'];
+            $title = $validated['title'];
             $thumbnail = $request->file('thumbnail');
             $validated['thumbnail'] = $thumbnail->storeAs('images', "thumbnail/{$title}/{$thumbnail->getClientOriginalName()}", 'public');
         }
@@ -83,7 +83,7 @@ class ThreadController extends Controller
         $validated = $request->validated();
 
         if ($request->hasFile('thumbnail')) {
-            $title = $request->validated()['title'];
+            $title = $validated['title'];
             $thumbnail = $request->file('thumbnail');
             $validated['thumbnail'] = $thumbnail->storeAs('images', "thumbnail/{$title}/{$thumbnail->getClientOriginalName()}", 'public');
         }
